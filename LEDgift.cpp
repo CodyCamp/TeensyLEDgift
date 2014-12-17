@@ -1,18 +1,22 @@
 void setup()   {                
   Serial.begin(38400);
   pinMode(7, INPUT);
+  pinmode(8, INPUT);
+  pinMode(9, INPUT);
+  pinMode(10, INPUT);
 }
 
 //////////////////// button pins ///////////////////////////////
-const int modeButton = 7;		//pin mode button is connected to
+const int modeButton = 7;   //pin mode button is connected to
 
-const int redButton = 8;			//pin red button is connected to
-const int greenButton = 9;		//pin green button is connected to
-const int blueButton = 10; 		//pib blue button is connected to
+const int redButton = 8;      //pin red button is connected to
+const int greenButton = 9;    //pin green button is connected to
+const int blueButton = 10;    //pib blue button is connected to
 
-const int redPin = 22;
-const int greenPin = 23;
-const int bluePin = 21;
+const int redPin = 21;
+const int greenPin = 22;
+const int bluePin = 23;
+
 ////////////////////////////////////////////////////////////////
 
 
@@ -30,36 +34,51 @@ void checkButton(int, int&);
 
 void loop()                     
 {
-  if(modeButtonState == 1)        //nothing, used as an off mode, sets LED's off.
+  while(modeButtonState == 1)        //Used as an off mode, sets LED's off.
   {
-  	Serial.println("1");
+    Serial.println("1");
     setColorRGB(0, 0, 0);
+    
+    checkModeButton(modeButton, mState);
+    delay(500);
   }
-  else if(buttonState == 2)       //pick your own color using rgb buttons. 10 intensities of each color.
+  while(modeButtonState == 2)       //pick your own color using rgb buttons. 10 intensities of each color.
   {
-  	Serial.println("2");
-    setColorRGB((255*(rState/10)),(255+(gstate/10)),(255*(bState/10)));
+    Serial.println("2");
+    setColorRGB((255*(redButtonState/10)),(255*(greenButtonState/10)),(255*(blueButtonState/10)));
     
     checkColorButton(redButton, rState);
     checkColorButton(greenButton, gState);
     checkColorButton(blueButton, bState);
+
+    checkModeButton(modeButton, mState);
+    delay(500);
   }
-  else if (buttonState == 3)      //color fade, pick how fast they fade w/ 3 pre-determined speeds
+  
+  while(modeButtonState == 3)      //color fade, pick how fast they fade w/ 3 pre-determined speeds
   {
-  	Serial.println("3");
+    Serial.println("3");
+    
+    checkModeButton(modeButton, mState);
+    delay(500);
   }
-  else if(buttonState == 4)       //color fade different for each strip, pick speeds like above 
+  while(modeButtonState == 4)       //color fade different for each strip, pick speeds like above 
   {
     Serial.println("4");
+    
+    checkModeButton(modeButton, mState);
+    delay(500);
   }
-  else if(buttonState ==  5)      //color changes with music
+  while(modeButtonState ==  5)      //color changes with music
   {
     Serial.println("5");
+    
+    checkModeButton(modeButton, mState);
+    delay(500);
   }
+  
 
   checkModeButton(modeButton, mState);
-
-  delay(250);
 }
 
 void setColorRGB(int red, int green, int blue) {
@@ -70,10 +89,10 @@ void setColorRGB(int red, int green, int blue) {
 
 void checkModeButton(int modeButton, int& modeButtonState)
 {
-	if(digitalRead(modeButton) != HIGH && modeButtonState < 5)
-		modeButtonState++;
-	else if(digitalRead(modeButton) != HIGH)
-		modeButtonState = 1;
+  if(digitalRead(modeButton) != HIGH && modeButtonState < 5)
+    modeButtonState++;
+  else if(digitalRead(modeButton) != HIGH)
+    modeButtonState = 1;
 }
 
 void checkColorButton(int colorButton, int& colorButtonState)
