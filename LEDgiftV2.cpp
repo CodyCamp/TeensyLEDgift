@@ -17,8 +17,11 @@ const int bluePin = 23;
 
 ////////////////////////////////////////////////////////////////
 
-int buttonState = 0;
-int lastButtonState = 0;
+int buttonStateMode = 0;
+int lastButtonStateMode = 0;
+
+int buttonStateColor = 0;
+int lastButtonStateColor = 0;
 
 int modeButtonState = 1;
 int& mState = modeButtonState;
@@ -70,7 +73,9 @@ void loop()
     setColorRGB(valRedLED, valGreenLED, valBlueLED);
     
     checkColorButton(redButton, rState);
+    checkModeButton(modeButton, mState);
     checkColorButton(greenButton, gState);
+    checkModeButton(modeButton, mState);
     checkColorButton(blueButton, bState);
 
     checkModeButton(modeButton, mState);
@@ -116,28 +121,28 @@ void setColorRGB(int red, int green, int blue)
 
 void checkModeButton(int modeButton, int& modeButtonState) 
 {
-  buttonState = digitalRead(modeButton);
-  if (buttonState != lastButtonState) {
-    if (buttonState == HIGH) {
+  buttonStateMode = digitalRead(modeButton);
+  if (buttonStateMode != lastButtonStateMode) {
+    if (buttonStateMode == HIGH) {
       modeButtonState++;
       if (modeButtonState > 5)
         modeButtonState = 1;
     } 
   }
-  lastButtonState = buttonState;
+  lastButtonStateMode = buttonStateMode;
 }
 
 void checkColorButton(int colorButton, int& colorButtonState) 
 {
-  buttonState = digitalRead(colorButton);
-  if (buttonState != lastButtonState) {
-    if (buttonState == HIGH) {
+  buttonStateColor = digitalRead(colorButton);
+  if (buttonStateColor != lastButtonStateColor) {
+    if (buttonStateColor == HIGH) {
       colorButtonState++;
       if (colorButtonState > 5)
         colorButtonState = 1;
     } 
   }
-  lastButtonState = buttonState;
+  lastButtonStateColor = buttonStateColor;
 }
 
 void colorFader()
