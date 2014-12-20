@@ -17,6 +17,10 @@ const int bluePin = 23;
 
 ////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////
+//    VARIABLE AND FUNCTION DECLARATIONS   //
+/////////////////////////////////////////////
+
 int buttonStateMode = 0;
 int lastButtonStateMode = 0;
 
@@ -38,6 +42,9 @@ void checkColorButton(int colorButton, int& colorButtonState);
 int colorVal(int);
 void colorFader(int delayFactor, int mode);
 
+///////////////
+//   SETUP   //
+///////////////
 
 void setup()   {                
   //Serial.begin(38400);
@@ -47,6 +54,10 @@ void setup()   {
   pinMode(10, INPUT_PULLUP);
   //pinMode(13, HIGH);
 }
+
+/////////////////////
+//    MAIN LOOP    //
+/////////////////////
 
 void loop()                     
 {
@@ -99,8 +110,6 @@ void loop()
     //delay(500);
   }
 
-  
-
   while(modeButtonState ==  5)      //color changes with music
   {
     //Serial.println("5");  //debugging
@@ -112,6 +121,16 @@ void loop()
 
   checkModeButton(modeButton, mState);
   //delay(500);
+}
+
+/////////////////////////////
+//        FUNCTIONS        //
+/////////////////////////////
+
+int colorVal(int level)   //use array, 2 lines of code
+{
+  int colorValArray[] = {0, 25, 51, 77, 102, 128, 153, 179, 204, 230, 255};
+  return colorValArray[level];
 }
 
 void setColorRGB(int red, int green, int blue) 
@@ -179,10 +198,4 @@ void colorFader(int delayFactor, int mode)
         break;
   }  
   checkModeButton(modeButton, mState);
-}
-
-int colorVal(int level)   //use array, 2 lines of code
-{
-  int colorValArray[] = {0, 25, 51, 77, 102, 128, 153, 179, 204, 230, 255};
-  return colorValArray[level];
 }
